@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+        <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css" />
+        <script src="js/jquery-1.11.1.min.js"></script>
+        <script src="js/jquery.mobile-1.4.5.min.js"></script>
+        <script src="js/handleDb.js"></script>
+        <script src="js/handleTable.js"></script>
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        <meta name="color-scheme" content="light dark">
+        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/themes/customIrate.min.css" />
+        <link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
+        <title>Hello World</title>
+    </head>
+    <body>
+        <!-- Start of first page -->
+        <div data-role="page" id="add_rating">
+        
+        	<div data-role="header">
+                <div class="ui-nodisc-icon" >
+                    <a href="#home">
+                        <img src="./img/back.png" alt="back" id="back_btn">
+                    </a>
+                </div>
+                <h1 id="add_form_title">New Rating</h1>
+        	</div><!-- /header -->
+        
+        	<div role="main" class="ui-content">
+                <label for="res_name">Restaurant Name:</label>
+                <input type="text" id="res_name" data-clear-btn="true">
+                <label for="res_type">Restaurant type</label>
+                <select name="res_type" id="res_type">
+                    <option value="none" selected disabled hidden> 
+                        Select an Option 
+                    </option>
+                     <option value="Fine Dining">Fine Dining</option>
+                    <option value="casual Dining">Casual Dining</option>
+                    <option value="Family Style">Family Style</option>
+                </select>
+                <label for="date_visit">Visit date:</label>
+                <input type="date" id="date_visit" data-clear-btn="true"/>
+                <label for="avg_price">Average Price:</label>
+                <input type="number" id="avg_price" data-clear-btn="true" maxlength="20" min="0" />
+                <label for="ser_rate">Service Rating:</label>
+                <select name="serRate" id="ser_rate">
+                    <option value="none" selected disabled hidden> 
+                        Select an Option 
+                    </option>
+                    <option value=0>Need to improve</option>
+                    <option value=1>OKAY</option>
+                    <option value=2>Good</option>
+                    <option value=3>Excellent</option>
+                </select>
+                <label for="clean_rate">Cleanliness Rating:</label>
+                <select name="cleanRate" id="clean_rate">
+                    <option value="none" selected disabled hidden> 
+                        Select an Option 
+                    </option>
+                    <option value=0>Need to improve</option>
+                    <option value=1>OKAY</option>
+                    <option value=2>Good</option>
+                    <option value=3>Excellent</option>
+                </select>
+                <label for="food_rate">Food Rating:</label>
+                <select name="foodRate" id="food_rate" >
+                    <option value="none" selected disabled hidden> 
+                        Select an Option 
+                    </option>
+                    <option value=0>Need to improve</option>
+                    <option value=1>OKAY</option>
+                    <option value=2>Good</option>
+                    <option value=3>Excellent</option>
+                </select>
+                <label for="notes">Notes:</label>
+                <input type="text" id="notes" data-clear-btn="true"/>
+                <label for="reporter">Reporter:</label>
+                <input type="text" id="reporter" data-clear-btn="true"/>
+                <label for="btnAdd"></label>
+                <a class="ui-btn ui-icon-plus ui-btn-icon-left"
+                   id="btn_add_form">Add</a>
+        	</div><!-- /content -->
+        
+        	<div data-role="footer" data-position="fixed">
+        		<h4><span>&#169;</span>2020 Thanh Tran</h4>
+        	</div><!-- /footer -->
+        </div><!-- /page -->
+        <!-- Start of second page -->
+        <div data-role="page" id="home">
+                
+            <div data-role="header">
+                <h1>Home</h1>
+            </div><!-- /header -->
+
+            <div role="main" class="ui-content">
+                <form class="ui-filterable">
+                    <input data-type="search" id="keyword"/>
+                </form>
+                <ul data-role="listview" data-filter="true"
+                    data-input="#keyword"
+                    data-inset="true"
+                    id="ratingList"
+                >
+                </ul>
+                <div data-role="popup" id="popup_update_delete">
+                    <div data-role="header">
+                        <a class="ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all" data-rel="back"></a>
+                        <h1>Options</h1>
+                    </div>
+                    <div data-role="main" class="ui-content">
+                        <a class="ui-btn ui-icon-delete ui-btn-icon-left ui-btn-inline" id="btn_del"
+                        >Delete</a>
+                        <a class="ui-btn ui-icon-edit ui-btn-icon-left ui-btn-inline"
+                           href="#update_dialog"
+                        >Update</a>
+                    </div>
+                </div>
+            </div><!-- /content -->
+               <a href="#add_rating"id="add_btn">
+                   <img src="./img/plus_icon.png" alt="add" id="add_btn_icon">
+               </a>
+
+            <div data-role="footer" data-position="fixed" id="home_footer">
+                <h4><span>&#169;</span>2020 Thanh Tran</h4>
+            </div><!-- /footer -->
+        </div><!-- /page -->
+        <div data-role="dialog" id="update_dialog">
+            <div data-role="header">
+                <h1>Update Rating</h1>
+            </div>
+            <div data-role="main" class="ui-content">
+                <form>
+                    <div class="ui-field-contain">
+                        <label for="new_notes">Notes:</label>
+                        <input type="text" id="new_notes" data-clear-btn="true"/>
+                        <label for="btn_update"></label>
+                        <a class="ui-btn ui-icon-plus ui-btn-icon-left"
+                           id="btn_update">Update</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script src="cordova.js"></script>
+        <script src="js/index.js"></script>
+    </body>
+</html>
